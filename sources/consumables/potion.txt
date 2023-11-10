@@ -1,0 +1,5 @@
+Potion  Recovers 40HP   Price: 40
+name potion
+type 4
+hp 40
+price 40

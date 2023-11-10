@@ -1,0 +1,13 @@
+name goblin
+level 6
+base_hp 16
+base_mp 3
+money 20
+exp 10
+strength 5
+defense 0
+evasion 0
+magic 0
+magic_defense 5
+magic_evasion 0
+agility 10

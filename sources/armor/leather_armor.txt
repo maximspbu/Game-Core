@@ -1,0 +1,9 @@
+Leather armor    Defense: 4
+name leather_armor
+type 1
+defense 1
+evasion 1
+magic_defence 1
+magic_evasion 0
+weight 2
+price 80

@@ -1,16 +1,15 @@
-#ifndef TAVERN_H
-#define TAVERN_H
+#pragma once
 #include "party.h"
-class Tavern{
+#include "screen.h"
+#include "location.h"
+
+class Tavern:public Location{
     protected:
-        struct Goods{
-            std::vector<Hero> heroes;
-        } goods;
+        std::vector<std::vector<std::string>> list_items;
     public:
-        Tavern(Goods goods); //private
-        void enterance_screen();
+        Tavern(std::vector<std::vector<std::string>>); //private
+        void entrance_screen(Party_player&) override;
+        void price_list();
+        void buy(Party_player& party);
         void recovery(Party_player& party); //party
-        void price_list_heroes(Goods goods); //party
-        void buy_hero(Party_player& party);
 };
-#endif

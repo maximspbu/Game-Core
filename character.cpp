@@ -1,113 +1,96 @@
 #include <string>
 #include <vector>
 #include <iostream>
+#include <algorithm>
+#include <fstream>
 #include "character.h"
-#include "screen.h"
 
+Character::Character(std::string file_name){
+    std::ifstream fs;
+    fs.open(file_name);
+    getline(fs, brief);
+    std::string key;
+    int value;
+    getline(fs, name);
+    while (fs >> key >> value){
+        stats[key] = value;
+    }
+    fs.close();
+    this->update_stats();
+    stats["cur_hp"] = stats["hp"];
+    stats["cur_mp"] = stats["mp"];
+}
 
 void Character::attack(Character* character){
     //attack = weapon attack + strength/2
     //without weapon: attack = level*2
-    this->stats.rand_num = rand()%200;
+    this->stats["rand_num"] = rand()%200;
     int deal_damage = 0;
     //party_enemies.get_stats().party[num_attack_enemy].stats.hp -= deal_damage;
 
 }
+
 void Character::defend(){
     
 }
-void Character::spell(){
+
+void Character::use_spell(){
 
 }
+
 void Character::levelup(){
-    if (this->stats.cur_exp>=stats.exp){
-        std::cout << "Choose upgrate for your Character: " << this->stats.name << '\n';
+    if (this->stats["cur_exp"]>=stats["exp"]){
+        stats["level"]+=1;
+        stats["exp"]%=100; // %= needed exp for new level
+        std::cout << "Choose upgrate for your Character: " << this->name << '\n';
     }
 }
+
 void Character::dead(){
     // no turns, can not be damaged, buffed, debuffed, only revived
     
 }
 
 
-Weapon* Character::get_weapon(){
-    return this->stats.weapon;
-}
-std::vector<Armor*> Character::get_armor(){
-    return this->stats.armor;
+
+void Character::equipment(){
+    std::cout << name << '\n' << "Stats:\n";
+    for (auto& stat : stats){
+        std::cout << stat.first << ": " <<stat.second << '\n';
+    }
+    std::cout << "Equipment:\n";
+    for (auto& eq : equipments){
+        std::cout << eq.first << ": " << eq.second << '\n';
+    }
 }
 
-void Character::equip_weapon(Weapon* weapon, Inventory& inventory){ // сделать unequip
-    if (((*this->stats.weapon).get_stats().type == 0) && ((*weapon).stats.used == 0)){
-        this->stats.weapon = weapon;
-        (*weapon).stats.used = this->stats.order_num;
-    } else if ((*weapon).stats.used != 0){
-        std::cout << "This weapom is already used. Unequip this weapon from from Character#" << (*weapon).stats.used << ".\n";
-    } else {
-        (*this->stats.weapon).stats.used = 0;
-        this->stats.weapon = weapon;
-        (*weapon).stats.used = this->stats.order_num;
-    }
+void Character::update_cur_stats(int added_hp, int added_mp){
+    stats["cur_hp"] = std::min(stats["curr_hp"]+added_hp, stats["hp"]);
+    stats["cur_mp"] = std::min(stats["curr_mp"]+added_hp, stats["mp"]);
 }
-void Character::equip_armor(Armor* armor, Inventory& inventory){
-    int cur_type = (*armor).get_stats().type;
-    if (((*this->stats.armor[cur_type]).get_stats().type == 0) && ((*armor).stats.used == 0)){
-        this->stats.armor[cur_type] = armor;
-        (*armor).stats.used = this->stats.order_num;
-    } else if ((*armor).stats.used != 0){
-        std::cout << "This armor is already used. Unequip this armor from from Character#" << (*armor).stats.used << ".\n";
-    } else {
-        (*this->stats.armor[cur_type]).stats.used = 0;
-        this->stats.armor[cur_type] = armor;
-        (*armor).stats.used = this->stats.order_num;
-    }
-}
-void Character::equip_spell(Spell* spell, Inventory& inventory){
-    int cur_type = (*spell).get_stats().type;
-    if (((*this->stats.spell[cur_type]).get_stats().type == 0) && ((*spell).stats.used == 0)){
-        this->stats.spell[cur_type] = spell;
-        (*spell).stats.used = this->stats.order_num;
-    } else if ((*spell).stats.used != 0){
-        std::cout << "This spell is already used. Unequip this spell from from Character#" << (*spell).stats.used << ".\n";
-    } else {
-        (*this->stats.spell[cur_type]).stats.used = 0;
-        this->stats.spell[cur_type] = spell;
-        (*spell).stats.used = this->stats.order_num;
-    }
-}
-void Character::equipment(Inventory& inventory){
-    std::cout<<"Armor:\n";
-    std::vector<std::string> list_armor{"Helmet", "Chest", "Legs", "Belt", "Boots", "Ring"};
-    for (int i = 0; i < list_armor.size(); i++){
-        std::cout << list_armor[i] << ":\n";
-        if ((*this->stats.armor[i]).get_stats().type!=0){
-            std::cout << (*stats.armor[i]).get_stats().name <<'\n';
-        } else {
-            std::cout << "---\n";
-        }
-    }
-    std::cout<<"Weapon:\n";
-    if ((*this->stats.weapon).get_stats().type==0){
-        std::cout<<"---\n";
-    } else {
-        std::cout << (*stats.weapon).get_stats().name << '\n';
-    }
-    std::cout<<"Spells:\n";
-    if (this->stats.spell.empty()){
-        std::cout<<"---\n";
-    } else {
-        for (int i = 0; i<this->stats.spell.size(); i++){
-            std::cout << (*this->get_stats().spell[i]).get_stats().name << '\n';
-        }
-    }
-}
+
 void Character::update_stats(){
-
+    std::string prefix = "base_";
+    std::vector<std::string> not_upd{"level", "exp", "price", "hp", "mp"};
+    stats["hp"] = (stats["base_hp"]*(stats["vitality"]+32))/32;
+    stats["mp"] = (stats["base_mp"]*(stats["magic"]+32))/32;
+    for (auto& i : stats){
+        if (std::find(not_upd.begin(), not_upd.end(), i.first)==not_upd.end()){
+            i.second = stats[prefix+i.first];
+            for (auto& j : equipments){
+                i.second += (*j.second).stats[i.first];
+            }
+        }
+    }
 }
+
 void Character::use_consuambles(Inventory& inventory){
 
 }
 
+void Character::equip_item(Item* item){
+    equipments[(*item).stats["type"]] = item;
+}
 
 /*
 class Enemy : public Character{ // no exp, has give_money, give_exp, give_quest_item

@@ -1,8 +1,8 @@
-#ifndef CHARACTER_H
-#define CHARACTER_H
+#pragma once
 #include <string>
 #include <vector>
 #include <iostream>
+#include <map>
 #include "inventory.h"
 //#include "party.h"
 
@@ -14,6 +14,7 @@ class Character{ // subclass: enemies (subclass: common, elite), merchant, quest
     // tavern: restore hp, mp, hire heroes; *save the game.
 
     protected:
+        /*
         struct Stats{
             std::string name;
             int hp;
@@ -52,33 +53,30 @@ class Character{ // subclass: enemies (subclass: common, elite), merchant, quest
             int cur_mp;
             int cur_exp;
             // magic_defense
-        } stats;
-    public:
-        Character(Stats c_s);
-        Stats get_stats();
-        Weapon* get_weapon();
-        std::vector<Armor*> get_armor();
-        void equip_weapon(Weapon* weapon, Inventory& inventory); //character
-        void equip_armor(Armor* armor, Inventory& inventory); //character
-        void equip_spell(Spell* spell, Inventory& inventory);
-        void equipment(Inventory& inventory); //character
-        void use_consuambles(Inventory& inventory); //character
-        void attack(Character* character);
-        void defend();
-        void spell();
-        void update_stats();// set_hp(mp, attack...) перерасчет характеристик после экипировки, повышения уровня и т.д.
-    private: 
+        } stats;*/
+        std::string name;
+        std::string brief;
+        std::map<std::string, int> stats;
+        std::map<int, Item*> equipments;
+        //Struct Enemy_stats
+        
         void levelup();
         void dead();
-};
-
-/*
-class Enemy : public Character{
-    //classes: magical, dragon, giant, undead, were, aquatic, mage, regenerative
     public:
-        int given_money;
-        int given_exp;
-    private:
+        friend class Tavern;
+        friend class Party_player;
+        friend class Fight;
+        friend class Equipment;
+        int get_stats(std::string);
+        Character(std::string);
+        void equip_item(Item*);
+        void update_cur_stats(int, int);
+        void equipment(); //character
+        void use_consuambles(Inventory&); //character
+        void attack(Character*);
+        void defend();
+        void use_spell();
+        void update_stats();// set_hp(mp, attack...) перерасчет характеристик после экипировки, повышения уровня и т.д.
+    private: 
+        
 };
-*/
-#endif

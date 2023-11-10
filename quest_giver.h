@@ -1,11 +1,13 @@
-#ifndef QUEST_GIVER_H
-#define QUEST_GIVER_H
+#pragma once
 #include <string>
 #include <vector>
-class Quest_giver{
+#include "location.h"
+
+class Quest_giver: public Location{
     //list of string: texts of quests
     //list of bools, integers ... : status completing of quests
     protected:
+    /*
         struct Quest{
             std::string text_quest;
             bool active=false;
@@ -14,12 +16,11 @@ class Quest_giver{
             int num_complete;
             int p_num_complete=0;
         } quest;
-        std::vector<Quest> quests;
+        */
+        std::vector<std::string> quest_list;
     public:
-        Quest_giver(std::vector<Quest> quests); //private
-        void enterance_screen();
-        void get_quest();
+        Quest_giver(std::vector<std::string>); //private
+        void entrance_screen(Party_player&) override;
         void get_status_quest();
         void complete_quest(); // if ((this->quest.complete==quest.p_complete)||(this->quest.p_num_complete>=this->quest.num_complete))
 };
-#endif

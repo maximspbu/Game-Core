@@ -1,0 +1,5 @@
+Fire    Power:15    MP_Cost:4   Price:150
+name fire
+power 15
+mp_cost 4
+price 150

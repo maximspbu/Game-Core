@@ -1,16 +1,9 @@
-#ifndef INVENTORY_H
-#define INVENTORY_H
+#pragma once
 #include <string>
 #include <iostream>
 #include <vector>
 #include "quest_items.h"
-#include "weapon.h"
-#include "armor_char.h"
-#include "consumables.h"
-#include "spell.h"
 
-
-//weapons
 /*
 // statuses: death, petrifaction, poison, blind, paralysis, sleep, silence, confuse
 class Elements{
@@ -28,25 +21,16 @@ class attack_magic : Spell{
     private:
 };*/
 
-
-
-
-
 class Inventory{ //quest items, armor, weapon, spells
     // increase armor, damage, hp, speed, crit rate and etc.; item to complete quest
     friend class Party_player;
+    friend class Merchant;
+    friend class Equipment;
     protected:
-        struct Inventory_player{
-            std::vector<std::vector<Armor>> armor;
-            std::vector<Weapon> weapon;
-            std::vector<Spell> spell;
-            std::vector<Consumables> consumables;
-            std::vector<Quest_items> quest_item;
-        } inventory_player;
+        std::map<std::string, std::vector<Item>> inventory_player;
         
     public:
-        Inventory(Inventory_player intentory_player);
-        Inventory_player get_inventory();
-        void enterance_screen();
+        Inventory();
+        Item* get_inventory(std::string, int);
+        void entrance_screen();
 };
-#endif

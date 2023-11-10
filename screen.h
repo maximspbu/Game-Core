@@ -1,24 +1,19 @@
-#ifndef SCREEN_H
-#define SCREEN_H
+#pragma once
 #include <iostream>
+#include <vector>
 #include "character.h"
 #include "inventory.h"
-#include "tavern.h"
-#include "merchant.h"
-#include "quest_giver.h"
-#include "fight.h"
+#include "location.h"
 
-class Screen{ // output in console
+class Screen: public Location{ // output in console
     protected:
         int turn;
+        std::vector<Location*> choice_list;
     public:
+        Screen(std::vector<Location*>);
         int turn_get();
         void turn_input();
-        void home_menu_output(Merchant& merchant, Quest_giver& quest_giver, Tavern& tavern); // Merchant& merchant, Quest& quest, Tavern& tavern
-        void quest_menu_output(Quest_giver& quest_giver);
-        void start(Merchant& merchant, Quest_giver& quest_giver, Tavern& tavern);
-        void merchant_output(Merchant& merchant);
-        void tavern_output(Tavern& tavern);
+        void entrance_screen(Party_player&) override;
+        void start(Party_player&);
     private:
 };
-#endif

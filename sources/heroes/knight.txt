@@ -1,0 +1,16 @@
+Knight HP: 47 MP:2 Price:200
+name knight
+type 0
+base_hp 20
+base_mp 2
+level 1
+exp 0
+base_strength 47
+base_aglity 25
+base_vitality 44
+base_magic 10
+base_attack 3
+base_defense 0
+base_evasion 5
+base_weight 0
+price 200

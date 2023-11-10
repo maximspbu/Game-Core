@@ -1,48 +1,34 @@
 #include "merchant.h"
-#include <iostream>
-Merchant::Merchant(Goods goods){
-    this->goods = goods;
+
+Merchant::Merchant(std::vector<std::vector<std::string>> list){
+    this->list_items = list;
+    //this->stats["armor"] = std::vector<Armor>;
 }
 
-void Merchant::enterance_screen(){
-    std::cout << "What do you want to buy?\n";
-    std::cout << "1)Weapons.\t2)Armor.\t3)Consumables.\n";
-    int turn;
-    std::cin >> turn;
-    if (turn==1){
-        price_list_weapon();
-    }
-    else if (turn==2){
-        price_list_armor();
-    }
-    else if (turn==3){
-        price_list_consumables();
-    }
-    else if (turn==0){
-
+void Merchant::entrance_screen(Party_player& party){
+    while (true){
+        std::cout << "What do you want to buy?\n";
+        std::cout << "1)Weapons.\t2)Armor.\t3)Spells.\t4)Consumables.\n";
+        int turn;
+        std::cin >> turn;
+        if (turn == 0){
+            return ;
+        }
+        turn -= 1;
+        this->price_list(turn);
+        std::cout << "Money: " << party.stats.money << '\n';
+        this->buy(turn, party);
     }
 }
-void Merchant::price_list_armor(){
 
+void Merchant::price_list(int turn){
+    Location::price_list(list_items[turn]);
 }
-void Merchant::buy_armor(){
 
-}
-void Merchant::price_list_weapon(){
-
-}
-void Merchant::buy_weapon(){
-
-}
-void Merchant::price_list_consumables(){
-
-}
-void Merchant::buy_consumables(){
-
-}
-void Merchant::price_list_spells(){
-
-}
-void Merchant::buy_spell(){
-
+void Merchant::buy(int turn, Party_player& party){
+    int player_choice = Location::choice()-1;
+    Item new_item(list_items[turn][player_choice]);
+    party.stats.inventory.inventory_player["type"].push_back(new_item); //add to txt type stat 0-weapom, 1-chest ...
+    party.stats.money -= new_item.stats["price"];
+    std::cout << "Money: " << party.stats.money << '\n';
 }
