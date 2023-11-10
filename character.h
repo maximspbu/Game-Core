@@ -4,6 +4,7 @@
 #include <iostream>
 #include <map>
 #include "inventory.h"
+#include "item.h"
 //#include "party.h"
 
 class Character{ // subclass: enemies (subclass: common, elite), merchant, quest, tavern, hero

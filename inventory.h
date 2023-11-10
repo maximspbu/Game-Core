@@ -2,8 +2,7 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "quest_items.h"
-
+#include "item.h"
 /*
 // statuses: death, petrifaction, poison, blind, paralysis, sleep, silence, confuse
 class Elements{
