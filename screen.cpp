@@ -17,9 +17,9 @@ void Screen::turn_input(){
 }
 
 void Screen::entrance_screen(Party_player& party){
-    std::cout << "1)Fighting.\t2)Get a quest.\t3)Tavern.\t4)Merchant.\t5)Inventory/Heroes.\n";
-    turn_input();
     while (true){
+        std::cout << "1)Fighting.\t2)Get a quest.\t3)Tavern.\t4)Merchant.\t5)Inventory/Heroes.\n";
+        turn_input();
         if (this->turn == 0){
             exit(0);
         } else {

@@ -12,7 +12,7 @@ Party_player::Party_player(){
     stats.inventory = new_inventory;
 }
 void Party_player::add_character(Character hero){
-    hero.stats["cur_num"] = stats.cur_heroes_count;
+    hero.stats["order_num"] = stats.cur_heroes_count;
     this->stats.cur_heroes_count++;
     this->stats.party.push_back(hero);
 }

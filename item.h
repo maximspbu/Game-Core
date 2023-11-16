@@ -10,6 +10,7 @@ class Item{
     friend class Merchant;
     protected:
         std::map<std::string, int> stats;
+        std::string type;
     public:
         std::string name;
         std::string brief;

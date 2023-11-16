@@ -3,6 +3,8 @@
 #include <iostream>
 #include <vector>
 #include "item.h"
+#include "character.h"
+
 /*
 // statuses: death, petrifaction, poison, blind, paralysis, sleep, silence, confuse
 class Elements{
@@ -25,6 +27,7 @@ class Inventory{ //quest items, armor, weapon, spells
     friend class Party_player;
     friend class Merchant;
     friend class Equipment;
+    friend class Fight;
     protected:
         std::map<std::string, std::vector<Item>> inventory_player;
         
@@ -32,4 +35,5 @@ class Inventory{ //quest items, armor, weapon, spells
         Inventory();
         Item* get_inventory(std::string, int);
         void entrance_screen();
+        bool use_consumable(Character&);
 };

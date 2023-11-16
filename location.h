@@ -12,7 +12,6 @@ class Location{
         virtual void entrance_screen(Party_player&) = 0; //while (true)
         void price_list(std::vector<std::string> list_file);
         std::map<std::string, int> buy(Party_player& party, std::string file_name, std::string* item_name);
-        void cycle();
         /*
         void read_file(std::string file_name, Item* item){
             std::map<std::string, int> local_stats;

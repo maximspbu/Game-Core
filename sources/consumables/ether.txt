@@ -1,5 +1,6 @@
 Ether   Recovers 40 MP  Price: 150
-name ether
+ether
+consumable
 type 4
 mp 40
 price 150

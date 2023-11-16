@@ -7,6 +7,7 @@ Item::Item(std::string file_name){
     std::string key;
     int value;
     getline(fs, name);
+    getline(fs, type);
     while (fs >> key >> value){
         stats[key] = value;
     }

@@ -3,7 +3,7 @@
 #include <vector>
 #include <iostream>
 #include "character.h"
-
+#include "inventory.h"
 
 class Party_player{ //party player
     // stats of game: time, score, money, inventory, heroes count, (save)
@@ -23,7 +23,7 @@ class Party_player{ //party player
         } stats;
     public:
         Party_player();
-        void add_character(Character hero); //?hero (потом сделать класс пати врагов, класс enemy)
+        void add_character(Character hero);
         Stats get_stats();
     private:
 };

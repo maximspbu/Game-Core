@@ -3,6 +3,7 @@
 #include <vector>
 #include "inventory.h"
 
+
 //weapons
 /*
 // statuses: death, petrifaction, poison, blind, paralysis, sleep, silence, confuse
@@ -35,4 +36,20 @@ void Inventory::entrance_screen(){
     int turn;
     std::cin >> turn;
     
+}
+
+bool Inventory::use_consumable(Character& character){
+    if (inventory_player["consumables"].size()==0) return false;
+    for (int i = 0; i < inventory_player["consumables"].size(); i++){
+        std::cout << i+1 << ") " << inventory_player["consumables"][i].brief << '\n';
+    }
+    int item;
+    std::cout << "Choose item:\n";
+    std::cin >> item;
+    if (item==0) return false;
+    item-=1;
+    character.stats["cur_hp"] += std::min(character.stats["cur_hp"]+inventory_player["consumables"][item].get_stat("hp"), character.stats["hp"]);
+    character.stats["cur_mp"] += std::min(character.stats["cur_mp"]+inventory_player["consumables"][item].get_stat("mp"), character.stats["mp"]);
+    inventory_player["consumables"].erase(inventory_player["consumables"].begin()+item);
+    return true;
 }

@@ -35,14 +35,3 @@ int Location::choice(){
     //0 - entrance_screen
     return turn;
 }
-
-void cycle(){
-    int turn;
-    std::cin >> turn;
-    while (true){
-        if (turn == 0){
-            break;
-        }
-        std::cin >> turn;
-    }
-}

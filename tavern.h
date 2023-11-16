@@ -6,6 +6,7 @@
 class Tavern:public Location{
     protected:
         std::vector<std::vector<std::string>> list_items;
+        int recovery_price;
     public:
         Tavern(std::vector<std::vector<std::string>>); //private
         void entrance_screen(Party_player&) override;

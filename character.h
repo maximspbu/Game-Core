@@ -3,17 +3,9 @@
 #include <vector>
 #include <iostream>
 #include <map>
-#include "inventory.h"
 #include "item.h"
-//#include "party.h"
 
-class Character{ // subclass: enemies (subclass: common, elite), merchant, quest, tavern, hero
-    // enemies common: attack, defend, spell (appear randomly)
-    // enemies elite: attack, defend, spell, ultimate, spec. attack (appear in exactly place)
-    // merchant: sell weapon, armor, consumables
-    // quest: give a quest
-    // tavern: restore hp, mp, hire heroes; *save the game.
-
+class Character{
     protected:
         /*
         struct Stats{
@@ -58,9 +50,8 @@ class Character{ // subclass: enemies (subclass: common, elite), merchant, quest
         std::string name;
         std::string brief;
         std::map<std::string, int> stats;
-        std::map<int, Item*> equipments;
-        //Struct Enemy_stats
-        
+        std::map<std::string, Item*> equipments;
+        bool is_dead = false;
         void levelup();
         void dead();
     public:
@@ -68,16 +59,17 @@ class Character{ // subclass: enemies (subclass: common, elite), merchant, quest
         friend class Party_player;
         friend class Fight;
         friend class Equipment;
+        friend class Inventory;
         int get_stats(std::string);
         Character(std::string);
         void equip_item(Item*);
         void update_cur_stats(int, int);
         void equipment(); //character
-        void use_consuambles(Inventory&); //character
-        void attack(Character*);
+        //void use_consuambles(Inventory&); //character
+        void attack(Character&);
         void defend();
-        void use_spell();
-        void update_stats();// set_hp(mp, attack...) перерасчет характеристик после экипировки, повышения уровня и т.д.
+        void use_spell(Character&);
+        void update_stats();// set_hp(mp, attack...) пересчет характеристик после экипировки, повышения уровня и т.д.
     private: 
         
 };
