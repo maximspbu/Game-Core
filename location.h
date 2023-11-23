@@ -7,11 +7,13 @@
 #include <map>
 
 class Location{
-    public:
+    protected:
+        std::vector<std::vector<std::string>> file_list;
+        Location(const std::vector<std::vector<std::string>>& file_list);
         int turn;
-        virtual void entrance_screen(Party_player&) = 0; //while (true)
-        void price_list(std::vector<std::string> list_file);
-        std::map<std::string, int> buy(Party_player& party, std::string file_name, std::string* item_name);
+    public:
+        virtual void entrance_screen(Party&) = 0; //location only
+
         /*
         void read_file(std::string file_name, Item* item){
             std::map<std::string, int> local_stats;
@@ -26,5 +28,4 @@ class Location{
             fs.close();
         }*/
         virtual ~Location(){}
-        int choice();
 };

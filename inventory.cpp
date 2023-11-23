@@ -32,24 +32,23 @@ Item* Inventory::get_inventory(std::string type, int num){
 }
 
 void Inventory::entrance_screen(){
-    std::cout<<"1)See weapon.\t2)See armor.\t3)See spells.\t4)See quest items.\t5)Use consumables.\n";
+    std::cout << "1)See weapon.\t2)See armor.\t3)See spells.\t4)See quest items.\t5)Use consumables.\n";
     int turn;
     std::cin >> turn;
     
 }
 
 bool Inventory::use_consumable(Character& character){
-    if (inventory_player["consumables"].size()==0) return false;
-    for (int i = 0; i < inventory_player["consumables"].size(); i++){
-        std::cout << i+1 << ") " << inventory_player["consumables"][i].brief << '\n';
+    if (inventory_player["consumable"].size() == 0) return false;
+    for (int i = 0; i < inventory_player["consumable"].size(); i++){
+        std::cout << i+1 << ") " << inventory_player["consumable"][i].get_description("brief") << '\n';
     }
     int item;
     std::cout << "Choose item:\n";
     std::cin >> item;
-    if (item==0) return false;
-    item-=1;
-    character.stats["cur_hp"] += std::min(character.stats["cur_hp"]+inventory_player["consumables"][item].get_stat("hp"), character.stats["hp"]);
-    character.stats["cur_mp"] += std::min(character.stats["cur_mp"]+inventory_player["consumables"][item].get_stat("mp"), character.stats["mp"]);
-    inventory_player["consumables"].erase(inventory_player["consumables"].begin()+item);
+    if (item == 0) return false;
+    item -= 1;
+    character.update_cur_stats(inventory_player["consumable"][item].get_stat("hp"), inventory_player["consumable"][item].get_stat("mp"));
+    inventory_player["consumable"].erase(inventory_player["consumable"].begin()+item);
     return true;
 }

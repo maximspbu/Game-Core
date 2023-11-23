@@ -1,8 +1,5 @@
-#include "location.h"
 #include "screen.h"
-#include "character.h"
 #include "party.h"
-#include "inventory.h"
 #include <vector>
 #include "merchant.h"
 #include "tavern.h"
@@ -12,26 +9,28 @@
 
 
 int main(){
-    std::string pwd = "/home/vboxuser/Desktop/new_folder/prog/vs/lab2/sources/";
-    std::vector<std::vector<std::string>> list_items_merchant = {
-        {pwd+"weapon/knife.txt"}, //sources/weapon/long_sword.txt
-        {pwd+"armor/leather_armor.txt"}, 
-        {pwd+"spells/fire.txt"}, 
-        {pwd+"consumables/potion.txt", pwd+"consumables/ether.txt"}
+    std::string pwd = "sources/";
+    const std::vector<std::vector<std::string>> list_items_merchant = {
+        {pwd + "weapon/knife.txt"}, //sources/weapon/long_sword.txt
+        {pwd + "armor/leather_armor.txt"}, 
+        {pwd + "spells/fire.txt"}, 
+        {pwd + "consumables/potion.txt", pwd + "consumables/ether.txt"}
     };
     Merchant merchant(list_items_merchant);
-    std::vector<std::vector<std::string>> list_items_tavern = {
-        {pwd+"heroes/knight.txt"}, 
+    const std::vector<std::vector<std::string>> list_items_tavern = {
+        {pwd + "heroes/knight.txt"}, 
     };
-    Tavern tavern(list_items_tavern);
-    std::vector<std::string> list_enemies = {pwd+"enemies/goblin.txt"};
+    Tavern tavern(list_items_tavern, 40);
+    const std::vector<std::vector<std::string>> list_enemies = {{pwd + "enemies/goblin.txt"}};
     Fight fight(list_enemies);
-    Equipment equipment;
-    std::vector<std::string> list_quests = {pwd+"quests/quest1.txt"};
+    const std::vector<std::vector<std::string>> list_equipment = {{""}};
+    Equipment equipment(list_equipment);
+    const std::vector<std::vector<std::string>> list_quests = {{pwd + "quests/quest1.txt"}};
     Quest_giver quest_giver(list_quests);
     std::vector<Location*> choice_list{&fight, &quest_giver, &tavern, &merchant, &equipment};
-    Screen screen(choice_list);
-    Party_player party_player;
+    const std::vector<std::vector<std::string>> list_screens = {{""}};
+    Screen screen(list_screens, choice_list);
+    Party party_player(pwd + "party/player.txt");
     screen.entrance_screen(party_player);
     return 0;
 }

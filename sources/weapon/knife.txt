@@ -1,5 +1,6 @@
 Knife   Attack: 7   Price: 75
-knife
-weapon
+name knife
+type weapon
+0 0
 attack 7
 price 75

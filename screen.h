@@ -10,10 +10,10 @@ class Screen: public Location{ // output in console
         int turn;
         std::vector<Location*> choice_list;
     public:
-        Screen(std::vector<Location*>);
+        Screen(const std::vector<std::vector<std::string>>& file_list, std::vector<Location*>);
         int turn_get();
         void turn_input();
-        void entrance_screen(Party_player&) override;
-        void start(Party_player&);
+        void entrance_screen(Party&) override;
+        void start(Party&);
     private:
 };

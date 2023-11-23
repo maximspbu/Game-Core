@@ -2,7 +2,6 @@
 #include <string>
 #include <iostream>
 #include <vector>
-#include "item.h"
 #include "character.h"
 
 /*
@@ -24,13 +23,16 @@ class attack_magic : Spell{
 
 class Inventory{ //quest items, armor, weapon, spells
     // increase armor, damage, hp, speed, crit rate and etc.; item to complete quest
-    friend class Party_player;
+    friend class Party;
     friend class Merchant;
     friend class Equipment;
     friend class Fight;
+    friend class Quest_giver;
     protected:
         std::map<std::string, std::vector<Item>> inventory_player;
-        
+        //std::map<std::string, std::vector<Object*>> inventory_player; //charcter:..., weapon:..., armor:...
+        //std::map<std::string, std::vector<Character*>> inventory_player_heroes;
+        //std::map<std::string, std::vector<Item>> inventory_player_item;
     public:
         Inventory();
         Item* get_inventory(std::string, int);

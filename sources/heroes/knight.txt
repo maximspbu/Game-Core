@@ -1,10 +1,12 @@
-Knight    HP: 47    MP:2    Price:200
-knight
-type 0
+Knight    HP: 20    MP:2    Price:200
+name knight
+type hero
+0 0
 base_hp 20
 base_mp 2
 level 1
-exp 0
+cur_exp 0
+exp 100
 base_strength 47
 base_agility 25
 base_vitality 44

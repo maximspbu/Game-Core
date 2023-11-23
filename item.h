@@ -3,19 +3,17 @@
 #include <iostream>
 #include <map>
 #include <fstream>
+#include "object.h"
 
-class Item{
+class Item: public Object{
     friend class Location;
     friend class Character;
     friend class Merchant;
+    friend class Fight;
     protected:
-        std::map<std::string, int> stats;
-        std::string type;
+
     public:
-        std::string name;
-        std::string brief;
         Item(std::string);
         void stats_output();
-        int get_stat(std::string stat);
         ~Item(){};
 };

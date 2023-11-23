@@ -3,23 +3,14 @@
 
 class Character;
 
-Party_player::Party_player(){
-    stats.money = 1000;
-    stats.heroes_count = 4;
-    stats.cur_heroes_count = 0;
-    stats.party = {};
-    Inventory new_inventory;
-    stats.inventory = new_inventory;
-}
-void Party_player::add_character(Character hero){
-    hero.stats["order_num"] = stats.cur_heroes_count;
-    this->stats.cur_heroes_count++;
-    this->stats.party.push_back(hero);
+Party::Party(std::string file_name):Object(file_name){}
+
+void Party::add_character(Character hero){
+    hero.stats["order_num"] = stats["cur_members_count"];
+    stats["cur_members_count"]++;
+    this->party.push_back(hero);
 }
 
-Party_player::Stats Party_player::get_stats(){
-    return this->stats;
-}
 /*
 Character::Character(Stats c_s):stats(c_s){
 }

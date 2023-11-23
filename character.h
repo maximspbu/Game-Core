@@ -5,7 +5,8 @@
 #include <map>
 #include "item.h"
 
-class Character{
+
+class Character: public Object{
     protected:
         /*
         struct Stats{
@@ -47,28 +48,24 @@ class Character{
             int cur_exp;
             // magic_defense
         } stats;*/
-        std::string name;
-        std::string brief;
-        std::map<std::string, int> stats;
         std::map<std::string, Item*> equipments;
         bool is_dead = false;
-        void levelup();
-        void dead();
+        
     public:
         friend class Tavern;
-        friend class Party_player;
+        friend class Party;
         friend class Fight;
         friend class Equipment;
         friend class Inventory;
-        int get_stats(std::string);
         Character(std::string);
+        void level_up();
         void equip_item(Item*);
         void update_cur_stats(int, int);
         void equipment(); //character
         //void use_consuambles(Inventory&); //character
         void attack(Character&);
         void defend();
-        void use_spell(Character&);
+        void use_spell(Character&, int);
         void update_stats();// set_hp(mp, attack...) пересчет характеристик после экипировки, повышения уровня и т.д.
     private: 
         
