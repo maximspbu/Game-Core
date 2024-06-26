@@ -8,7 +8,7 @@ void Merchant::EntranceScreen(Party& party){
         std::cout << "1)Weapons.\t2)Armor.\t3)Spells.\t4)Consumables.\n";
         player_choice = Shop::Choice();
         if (player_choice == 0) return;
-        player_choice -= 1;
+        --player_choice;
         PriceList(fileList_);
         Buy(party);
     }

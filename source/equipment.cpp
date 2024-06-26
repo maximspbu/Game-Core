@@ -28,7 +28,7 @@ void Equipment::ShowInventory(Party& party){
     //party.inventory_.inventoryPlayer_
     for (auto& i : party.inventory_.inventoryPlayer_){
         std::cout << i.first << ":\n";
-        for (int j = 0; j < i.second.size(); ++j){
+        for (size_t j = 0; j < i.second.size(); ++j){
             std::cout << j+1 << ") " << i.second[j].GetDescription("name") << '\n';
         }
     }
@@ -44,9 +44,9 @@ void Equipment::ShowInventory(Party& party){
 
 void Equipment::ShowHeroes(Party& party){
     std::cout << "Party:\n";
-    for (int i = 0; i<party.stats["cur_members_count"]; ++i){
-        party.party[i].Equipment();
-        std::cout << '\n'; 
+    for (auto& character: party.party){
+        character.Equipment();
+        std::cout << "\n";
     }
 }
 
@@ -66,18 +66,18 @@ void Equipment::Equip(Party& party){
     std::cout << "Choose who to equip item:\n";
     int input_;
     std::cin >> input_;
-    input_-=1;
+    --input_;
     std::cout << "Choose the type of equipment:\n1)Weapon\t2)Chest\t3)Helmet\t4)Spell\n";
     int type_;
     std::cin >> type_;
-    type_-=1;
-    for (int j = 0; j<party.inventory_.inventoryPlayer_[types_equipment[type_]].size(); ++j){
+    --type_;
+    for (size_t j = 0; j < party.inventory_.inventoryPlayer_[types_equipment[type_]].size(); ++j){
         std::cout << j+1 << ") " << party.inventory_.inventoryPlayer_[types_equipment[type_]][j].GetDescription("name") << '\n';
     }
     int item_;
     std::cout << "Enter the index of item:\n";
     std::cin >> item_;
-    if (item_==0) return;
+    if (item_ == 0) return;
     --item_;
     std::cout << "input: " << input_ << " type: " << type_ << " item: " << item_ << '\n';
     for (int i = 0; i < party.stats["cur_members_count"]; ++i){

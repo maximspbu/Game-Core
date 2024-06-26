@@ -4,7 +4,7 @@
 void Shop::PriceList(const std::vector<std::vector<std::string>>& list){
     std::ifstream fs;
     std::string short_stat;
-    for (int i = 0; i < list[player_choice].size(); ++i){
+    for (size_t i = 0; i < list[player_choice].size(); ++i){
         fs.open(list[player_choice][i]);
         std::getline(fs, short_stat);
         std::cout << i+1 << ") " << short_stat << '\n';
@@ -13,12 +13,12 @@ void Shop::PriceList(const std::vector<std::vector<std::string>>& list){
 }
 
 void Shop::Buy(Party& party, Object* object){
-    if (object->stats["price"]>party.stats["money"]){
-        std::cout<<"Doesn't enough money\n";
+    if (object->stats["price"] > party.stats["money"]){
+        std::cout << "Doesn't enough money\n";
         return;
     }
     party.stats["money"] -= object->stats["price"];
-    std::cout << "Successfully purchased " << (*object).description["name"] << '\n';
+    std::cout << "Successfully purchased " << object->description["name"] << '\n';
 }
 
 void Shop::ReadFile(std::string file_name, std::map<std::string, std::string>& description, std::map<std::string, int>& stats){

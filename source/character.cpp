@@ -63,14 +63,14 @@ void Character::Equipment(){
     }
     std::cout << "Equipment:\n";
     for (auto& eq : equipments_){
-        std::cout << eq.first << ": " << (*eq.second).GetDescription("name") << '\n';
+        std::cout << eq.first << ": " << eq.second->GetDescription("name") << '\n';
     }
 }
 
 void Character::UpdateCurStats(int added_hp, int added_mp){
-    if (added_hp<0){
+    if (added_hp < 0){
         stats["cur_hp"] = std::max(stats["cur_hp"]+added_hp, 0);
-        if (stats["cur_hp"]==0) is_dead = true;
+        if (stats["cur_hp"] == 0) is_dead = true;
     } else {
         stats["cur_hp"] = std::min(stats["cur_hp"]+added_hp, stats["hp"]);
     }
@@ -87,7 +87,6 @@ void Character::UpdateStats(){
     stats["hp"] = (stats["base_hp"]*(stats["vitality"]+32))/32;
     stats["mp"] = (stats["base_mp"]*(stats["magic"]+32))/32;
     stats["bonus_defense"] = 0;
-    std::cout << "FLAG3\n";
     for (auto& i : stats){
         if ((std::find(not_upd.begin(), not_upd.end(), i.first)==not_upd.end())&&(i.first.substr(0,5)=="base_")){
             //if i.first do not begin with base_
@@ -96,14 +95,14 @@ void Character::UpdateStats(){
             //i.second = stats[prefix+i.first]; // fix
             for (auto& j : equipments_){
                 //i.second += (*j.second).stats[i.first];
-                stats[i.first.substr(5,i.first.size()-5)] += (*j.second).stats[i.first.substr(5,i.first.size()-5)];
+                stats[i.first.substr(5,i.first.size()-5)] += j.second->stats[i.first.substr(5,i.first.size()-5)];
             }
         }
     }
 }
 
 void Character::EquipItem(Item* item){
-    equipments_[(*item).description["type"]] = item;
+    equipments_[item->description["type"]] = item;
 }
 
 /*

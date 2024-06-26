@@ -43,8 +43,8 @@ void Tavern::Recovery(Party& party){ //Location* Location
             return;
         }
         party.stats["money"] -= recovery_price;
-        for (int i = 0; i < party.stats["cur_members_count"]; i++){
-            party.party[i].UpdateCurStats(party.party[i].GetStat("hp"), 0);
+        for (auto& character: party.party){
+            character.UpdateCurStats(character.GetStat("hp"), 0);
         }
     }
 }

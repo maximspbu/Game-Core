@@ -30,15 +30,15 @@ void Fight::Choice(Party& party, bool is_ai, int i){
     if (!is_ai){
         std::cout << "Choose action for Character#" << i+1 << '\n';
         std::cout << "1)Attack\t2)Defend\t3)Spell\t4)Use a consumable\n";
-        std::cin>>input;
-        if (input==1){
+        std::cin >> input;
+        if (input == 1){
             std::cout << "Choose target to attack\n";
             std::cin >> target;
             --target;
-        } if (input==3){
+        } if (input == 3){
             std::cout << "Choose spell:\n";
-            for (int x = 0; x<party.party[i].stats["count_spells"]; ++i){
-                std::cout << x+1 << ") " << (*party.party[i].equipments_["spell"+(char)(x+1)]).GetDescription("name") << '\n';
+            for (size_t x = 0; x<party.party[i].stats["count_spells"]; ++i){
+                std::cout << x+1 << ") " << party.party[i].equipments_["spell"+std::to_string(x+1)]->GetDescription("name") << '\n';
             }
             std::cin >> type;
             --type;
@@ -58,15 +58,15 @@ void Fight::Choice(Party& party, bool is_ai, int i){
     }
     int rand_input = std::rand()%10;
     int rand_target = std::rand()%16;
-    if (rand_input>0){
-        input=1;
+    if (rand_input > 0){
+        input = 1;
         //std::cout << rand_input << '\n';
         //std::cout << rand_input << ' ' << rand_target << '\n';
         if (rand_target<=7){
             this->target = 0;
-        } else if (8<=rand_target<=11){
+        } else if (8 <= rand_target <= 11){
             this->target = 1;
-        } else if (12<=rand_target<=13){
+        } else if (12 <= rand_target <= 13){
             this->target = 2;
         } else {
             this->target = 3;
@@ -78,18 +78,18 @@ void Fight::Choice(Party& party, bool is_ai, int i){
 
 void Fight::ChooseAction(Party& party_heroes, Party& party_enemies){
     int status = 0;
-    while (status==0){
+    while (status == 0){
         status = FightStatus(party_heroes, party_enemies);
-        if (turn%2==0){
+        if (turn%2 == 0){
             FightMechanics(party_heroes, party_enemies);
         } else {
             FightMechanics(party_enemies, party_heroes);
         }
-        turn+=1;
+        ++turn;
     }
-    if (status==-1){
+    if (status == -1){
         FailtureFightOutput();
-    } else if (status==1) {
+    } else if (status == 1) {
         VictoryFightOutput(party_heroes, party_enemies);
     }
 }
@@ -98,11 +98,11 @@ void Fight::VictoryFightOutput(Party& party_heroes, Party& party_enemies){
     std::cout << "Victory!\n";
     int total_exp = 0;
     int total_money = 0;
-    for (int i = 0; i < party_enemies.stats["cur_members_count"]; ++i){
-        total_money += party_enemies.party[i].stats["money"];
-        total_exp += party_enemies.party[i].stats["exp"];
-        if (party_enemies.party[i].description["name"]==(*party_heroes.inventory_.GetInventory("quest", 0)).GetDescription("enemy_name")){
-            party_heroes.inventory_.inventoryPlayer_["quest"][0].stats["cur_count"]++;
+    for (auto& enemy: party_enemies.party){
+        total_money += enemy.stats["money"];
+        total_exp += enemy.stats["exp"];
+        if (enemy.description["name"] == party_heroes.inventory_.GetInventory("quest", 0)->GetDescription("enemy_name")){
+            ++party_heroes.inventory_.inventoryPlayer_["quest"][0].stats["cur_count"];
         }
     }
     std::cout << "Gained:\nMoney:\t" << total_money << '\n';
@@ -111,10 +111,10 @@ void Fight::VictoryFightOutput(Party& party_heroes, Party& party_enemies){
         std::cout << "You have completed quest#1\n";
         party_heroes.inventory_.inventoryPlayer_["quest"].erase(party_heroes.inventory_.inventoryPlayer_["quest"].end() - 1);
     }
-    party_heroes.stats["money"]+=total_money;
-    for (int i = 0; i<party_heroes.stats["cur_members_count"]; i++){
-        party_heroes.party[i].stats["cur_exp"] += total_exp/party_heroes.stats["cur_members_count"];
-        party_heroes.party[i].LevelUp();
+    party_heroes.stats["money"] += total_money;
+    for (auto& hero: party_heroes.party){
+        hero.stats["cur_exp"] += total_exp/party_heroes.stats["cur_members_count"];
+        hero.LevelUp();
     }
 }
 
@@ -123,22 +123,22 @@ void Fight::FailtureFightOutput(){
 }
 
 void Fight::FightMechanics(Party& party1, Party& party2){
-    int x=0;
-    for (int i = 0; i<party1.stats["cur_members_count"]; i++){
+    int x = 0;
+    for (size_t i = 0; i < party1.stats["cur_members_count"]; ++i){
         completeAction=false;
         if (party1.party[i].is_dead) continue;
         while (!completeAction){
             Choice(party1, turn%2, i);
             if (input == 0){
                 completeAction=true;
-            } if (input==1){
+            } else if (input==1) {
                 completeAction = AttackAction(party1, party2, i);
-            } if (input==4){
-                completeAction = UseConsumablesAction(party1, i);
-            } if (input==2){
+            } else if (input==2){
                 completeAction = DefendAction(party1, i);
-            } if (input==3){
+            } else if (input==3){
                 completeAction = SpellAction(party1, party2, i);
+            } else if (input==4){
+                completeAction = UseConsumablesAction(party1, i);
             }
             if (completeAction)
             x = FightStatus(party1, party2);
@@ -151,8 +151,8 @@ bool Fight::AttackAction(Party& party1, Party& party2, int i){
     //if enemy[target] is not dead (else return false)
     //hit%
     //evasion
-    std::cout << party2.stats["cur_members_count"] << '\n';
-    std::cout << target << '\n';
+    // std::cout << party2.stats["cur_members_count"] << '\n';
+    // std::cout << target << '\n';
     if (target >= party2.stats["cur_members_count"]) return false;
     if (party2.party[target].is_dead) return false;
     //std::cout << "flag\n";
@@ -185,14 +185,14 @@ int Fight::FightStatus(Party& party1, Party& party2){
     int c1 = 0;
     int c2 = 0;
     if (turn%2==0) std::cout << "You:\n";
-    for (int i = 0; i < party1.stats["cur_members_count"]; ++i){
-        if (turn%2==0) std::cout << party1.party[i].description["name"] << ":\tHP:" << party1.party[i].stats["cur_hp"] << "\tMP:" << party1.party[i].stats["cur_mp"]<<"\n"; //Character::ShowMainStats
-        if (party1.party[i].is_dead) c1 += 1;
+    for (auto& character: party1.party){
+        if (turn%2==0) std::cout << character.description["name"] << ":\tHP:" << character.stats["cur_hp"] << "\tMP:" << character.stats["cur_mp"]<<"\n"; //Character::ShowMainStats
+        if (character.is_dead) ++c1;
     }
     if (turn%2==0) std::cout << "Enemy:\n";
-    for (int i = 0; i < party2.stats["cur_members_count"]; ++i){
-        if (turn%2==0) std::cout << party2.party[i].description["name"] << ":\tHP:" << party2.party[i].stats["cur_hp"] << "\tMP:" << party2.party[i].stats["cur_mp"]<<"\n";
-        if (party2.party[i].is_dead) c2 += 1;
+    for (auto& character: party2.party){
+        if (turn%2==0) std::cout << character.description["name"] << ":\tHP:" << character.stats["cur_hp"] << "\tMP:" << character.stats["cur_mp"]<<"\n"; //Character::ShowMainStats
+        if (character.is_dead) ++c2;
     }
     if (c1 == party1.stats["cur_members_count"]){
         return -1;

@@ -37,10 +37,10 @@ void Inventory::EntranceScreen(){
 
 bool Inventory::UseConsumable(Character& character){
     if (inventoryPlayer_["consumable"].size() == 0) return false;
-    for (int i = 0; i < inventoryPlayer_["consumable"].size(); ++i){
+    for (size_t i = 0; i < inventoryPlayer_["consumable"].size(); ++i){
         std::cout << i+1 << ") " << inventoryPlayer_["consumable"][i].GetDescription("brief") << '\n';
     }
-    int item;
+    size_t item;
     std::cout << "Choose item:\n";
     std::cin >> item;
     if (item == 0) return false;
