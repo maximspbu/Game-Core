@@ -1,6 +1,0 @@
-Kill 3 goblins
-name killing_goblins
-enemy_name goblin
-0 0
-count 3
-cur_count 0

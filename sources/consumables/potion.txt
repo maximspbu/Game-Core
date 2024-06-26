@@ -1,6 +1,0 @@
-Potion  Recovers 40HP   Price: 40
-name potion
-type consumable
-0 0
-hp 40
-price 40
