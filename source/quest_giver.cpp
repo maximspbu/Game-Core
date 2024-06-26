@@ -24,7 +24,7 @@ void QuestGiver::EntranceScreen(Party& party){
 
 void QuestGiver::TakeQuest(Party& party){
     Item quest(fileList_[0][player_choice]);
-    party.inventory.inventoryPlayer_[quest.GetDescription("type")].push_back(quest);
+    party.inventory_.inventoryPlayer_[quest.GetDescription("type")].push_back(quest);
 }
 
 void QuestGiver::GetQuestStatus(){

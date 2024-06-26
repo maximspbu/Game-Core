@@ -23,7 +23,7 @@ int main(){
     const std::vector<std::vector<std::string>> list_equipment = {{""}};
     Equipment equipment(list_equipment);
     const std::vector<std::vector<std::string>> list_quests = {{pwd + "quests/quest1.txt"}};
-    Quest_giver quest_giver(list_quests);
+    QuestGiver quest_giver(list_quests);
     std::vector<Location*> choice_list{&fight, &quest_giver, &tavern, &merchant, &equipment};
     const std::vector<std::vector<std::string>> list_screens = {{""}};
     Screen screen(list_screens, choice_list);

@@ -25,8 +25,8 @@ void Equipment::EntranceScreen(Party& party){
 
 void Equipment::ShowInventory(Party& party){
     std::cout << "Inventory:\n";
-    //party.inventory.inventoryPlayer_
-    for (auto& i : party.inventory.inventoryPlayer_){
+    //party.inventory_.inventoryPlayer_
+    for (auto& i : party.inventory_.inventoryPlayer_){
         std::cout << i.first << ":\n";
         for (int j = 0; j < i.second.size(); ++j){
             std::cout << j+1 << ") " << i.second[j].GetDescription("name") << '\n';
@@ -35,8 +35,8 @@ void Equipment::ShowInventory(Party& party){
     /*
     for (int i = 0; i<fileList_[0].size(); i++){
         std::cout<<fileList_[0][i] << ":\n";
-        for (int j = 0; j<party.inventory.inventoryPlayer_[fileList_[0][i]].size(); j++){
-            std::cout << party.inventory.inventoryPlayer_[fileList_[0][i]][j].GetDescription("name") << '\n';
+        for (int j = 0; j<party.inventory_.inventoryPlayer_[fileList_[0][i]].size(); j++){
+            std::cout << party.inventory_.inventoryPlayer_[fileList_[0][i]][j].GetDescription("name") << '\n';
         }
     }
     */
@@ -71,8 +71,8 @@ void Equipment::Equip(Party& party){
     int type_;
     std::cin >> type_;
     type_-=1;
-    for (int j = 0; j<party.inventory.inventoryPlayer_[types_equipment[type_]].size(); ++j){
-        std::cout << j+1 << ") " << party.inventory.inventoryPlayer_[types_equipment[type_]][j].GetDescription("name") << '\n';
+    for (int j = 0; j<party.inventory_.inventoryPlayer_[types_equipment[type_]].size(); ++j){
+        std::cout << j+1 << ") " << party.inventory_.inventoryPlayer_[types_equipment[type_]][j].GetDescription("name") << '\n';
     }
     int item_;
     std::cout << "Enter the index of item:\n";
@@ -81,26 +81,26 @@ void Equipment::Equip(Party& party){
     --item_;
     std::cout << "input: " << input_ << " type: " << type_ << " item: " << item_ << '\n';
     for (int i = 0; i < party.stats["cur_members_count"]; ++i){
-        if (&party.inventory.inventoryPlayer_[types_equipment[type_]][item_]==party.party[i].equipments_[types_equipment[type_]]){
+        if (&party.inventory_.inventoryPlayer_[types_equipment[type_]][item_]==party.party[i].equipments_[types_equipment[type_]]){
             std::cout << "This weapon is already equipped by character#" << i+1 << '\n';
             return;
         }
     }
     std::cout << "FLAG\n";
-    party.party[input_].equipments_[types_equipment[type_]] = &party.inventory.inventoryPlayer_[types_equipment[type_]][item_];
+    party.party[input_].equipments_[types_equipment[type_]] = &party.inventory_.inventoryPlayer_[types_equipment[type_]][item_];
     std::cout << "FLAG2\n";
     //party.party[input_].UpdateStats();
     std::cout << "Item was equipped!\n";
 }
 
 void Equipment::UseConsumable(Party& party){
-    for (int i = 0; i < party.inventory.inventoryPlayer_["consumable"].size(); ++i){
-        std::cout << i+1 << ") " << party.inventory.inventoryPlayer_["consumable"][i].GetDescription("name") << '\n';
+    for (int i = 0; i < party.inventory_.inventoryPlayer_["consumable"].size(); ++i){
+        std::cout << i+1 << ") " << party.inventory_.inventoryPlayer_["consumable"][i].GetDescription("name") << '\n';
     }
     std::cout << "Choose who to use consumable:\n";
     int input;
     std::cin >> input;
     if (input == 0) return;
     --input;
-    bool status = party.inventory.UseConsumable(party.party[input]);
+    bool status = party.inventory_.UseConsumable(party.party[input]);
 }

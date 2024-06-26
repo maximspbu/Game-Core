@@ -101,15 +101,15 @@ void Fight::VictoryFightOutput(Party& party_heroes, Party& party_enemies){
     for (int i = 0; i < party_enemies.stats["cur_members_count"]; ++i){
         total_money += party_enemies.party[i].stats["money"];
         total_exp += party_enemies.party[i].stats["exp"];
-        if (party_enemies.party[i].description["name"]==(*party_heroes.inventory.GetInventory("quest", 0)).GetDescription("enemy_name")){
-            party_heroes.inventory.inventoryPlayer_["quest"][0].stats["cur_count"]++;
+        if (party_enemies.party[i].description["name"]==(*party_heroes.inventory_.GetInventory("quest", 0)).GetDescription("enemy_name")){
+            party_heroes.inventory_.inventoryPlayer_["quest"][0].stats["cur_count"]++;
         }
     }
     std::cout << "Gained:\nMoney:\t" << total_money << '\n';
     std::cout << "Exp (for each hero): " << total_exp/party_heroes.stats["cur_members_count"] << '\n';
-    if (party_heroes.inventory.inventoryPlayer_["quest"][0].stats["cur_count"] > party_heroes.inventory.inventoryPlayer_["quest"][0].stats["count"]){
+    if (party_heroes.inventory_.inventoryPlayer_["quest"][0].stats["cur_count"] > party_heroes.inventory_.inventoryPlayer_["quest"][0].stats["count"]){
         std::cout << "You have completed quest#1\n";
-        party_heroes.inventory.inventoryPlayer_["quest"].erase(party_heroes.inventory.inventoryPlayer_["quest"].end() - 1);
+        party_heroes.inventory_.inventoryPlayer_["quest"].erase(party_heroes.inventory_.inventoryPlayer_["quest"].end() - 1);
     }
     party_heroes.stats["money"]+=total_money;
     for (int i = 0; i<party_heroes.stats["cur_members_count"]; i++){
@@ -177,7 +177,7 @@ bool Fight::SpellAction(Party& party1, Party& party2, int i){
 }
 
 bool Fight::UseConsumablesAction(Party& party1, int i){
-    return party1.inventory.UseConsumable(party1.party[i]);
+    return party1.inventory_.UseConsumable(party1.party[i]);
 }
 
 int Fight::FightStatus(Party& party1, Party& party2){
