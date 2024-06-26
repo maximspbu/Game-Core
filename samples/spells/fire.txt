@@ -1,0 +1,7 @@
+Fire    Power:15    MP_Cost:2   Price:150
+name fire
+type spell
+0 0
+power 15
+mp_cost 2
+price 150

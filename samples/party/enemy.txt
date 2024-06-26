@@ -1,0 +1,6 @@
+Party enemy
+name enemy
+0 0
+money 0
+cur_members_count 0
+max_members_count 9

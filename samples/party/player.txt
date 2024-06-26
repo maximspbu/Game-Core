@@ -1,0 +1,6 @@
+Party player
+name player
+0 0
+money 1500
+cur_members_count 0
+max_members_count 4
